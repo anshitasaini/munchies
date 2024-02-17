@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import MapComponent from './Map.js';
+import ContainerComponent from './ContainerComponent.js';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>MUNCHIES</h1>
+      {/* InfoBox */}
+      {/* Map */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '24px' }}>
+        <ContainerComponent
+            width="1080px"
+            height="700px"
+            borderRadius="20px"
+            borderColor="rgba(52, 152, 219, 0.5)" >
+          <MapComponent />
+        </ContainerComponent>
+      </div>
+      
     </div>
   );
 }
