@@ -40,9 +40,22 @@ async def restaurant_details(name: str):
     return data[name]
 
 @app.get("/nearby-requesters/")
-async def get_nearby_requesters(latitude: float, longitude: float):
+async def nearby_requesters(latitude: float, longitude: float, radius: int):
+    latitude, longitude = 37.42801109129112, -122.17436390356903
+    
     response = supabase.table('requesters').select("*").execute()
-    print(response)
+    requesters = response.data
+
+    # only get the requesters within radius
+    nearby_requesters = []
+    for requester in requesters:
+        delivery_loc = (requester['delivery_lat'], requester['delivery_lng'])
+        restaurant_loc = (requester['restaurant_lat'], requester['restaurant_lng'])
+        distance = gmaps.distance_matrix(delivery_loc, restaurant_loc, mode='walking')
+        if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
+            nearby_requesters.append(requester)
+            
+    return {"requesters": nearby_requesters}
 
 @app.post("/create-request/")
 async def create_request(requester_name: str, restaurant_name: str, delivery_loc: str, expiry: str):
