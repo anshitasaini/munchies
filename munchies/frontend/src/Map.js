@@ -3,13 +3,12 @@ import GoogleMapReact from 'google-map-react';
 import MarkerComponent from "./MarkerComponent.js";
 
 
-export default function MapComponent({ children }) {
+export default function MapComponent({ onUserClick }) {
   const [userLocation, setUserLocation] = useState(null);
   const [clickedMarker, setClickedMarker] = useState(null);
 
   const handleMarkerClick = (marker) => {
-    setClickedMarker(marker);
-    alert(`Marker Information:\nLatitude: ${marker.lat}\nLongitude: ${marker.lng}\nText: ${marker.text}`);
+    onUserClick(marker);
   };
 
 
