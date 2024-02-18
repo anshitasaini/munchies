@@ -159,7 +159,7 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
 
         <div>
           {/* List of Restaurants */}
-          {activeTab === 'Request' && !restaurantActive && (
+          {activeTab === 'Request' && !restaurantActive && !requesterActive && !donatorActive && (
             <div>
               <VStack spacing={4} align="flex-start">
                 <Heading size="sm">Select a restaurant:</Heading>
@@ -174,7 +174,7 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
           )}
 
         {/* Restaurant Details */}
-        {restaurantActive && (
+        {restaurantActive && !donatorActive && !requesterActive && (
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 
@@ -188,7 +188,7 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
         )}
 
         {/* Donator Details */}
-        {donatorActive && (
+        {donatorActive && !restaurantActive && !requesterActive && (
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 
@@ -204,7 +204,7 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
         )}
 
         {/* Requester Details */}
-        {requesterActive && (
+        {requesterActive && !donatorActive && !restaurantActive && (
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 
