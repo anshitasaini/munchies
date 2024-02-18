@@ -49,7 +49,7 @@ async def nearby_restaurants(latitude: float, longitude: float):
         location = place.get('geometry', {}).get('location', {})
         restaurants.append({'name': place.get('name'), 'address': place.get('vicinity'), 'location': location})
     
-    return {"restaurants": restaurants}
+    return {"nearby_restaurants": restaurants}
 
 @app.get("/restaurant-details/")
 async def restaurant_details(name: str):
@@ -58,16 +58,8 @@ async def restaurant_details(name: str):
     
     return data[name]
 
-class RequesterSchema(BaseModel):
-    latitude: float
-    longitude: float
-    radius: int
-    
-class NearbyRequestersSchema(BaseModel):
-    nearby_requesters: list
-    
 @app.get("/nearby-requesters/")
-async def nearby_requesters(requester_in: RequesterSchema):
+async def nearby_requesters(latitude: float, longitude: float, radius: int):
     latitude, longitude = 37.42801109129112, -122.17436390356903
     
     response = supabase.table('requesters').select("*").execute()
@@ -78,10 +70,10 @@ async def nearby_requesters(requester_in: RequesterSchema):
     for requester in requesters:
         delivery_loc = (requester['delivery_lat'], requester['delivery_lng'])
         distance = gmaps.distance_matrix(delivery_loc, (latitude, longitude), mode='walking')
-        if distance['rows'][0]['elements'][0]['distance']['value'] < requester_in.radius:
+        if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
             nearby_requesters.append(requester)
             
-    return NearbyRequestersSchema(nearby_requesters=nearby_requesters)
+    return {"nearby_requesters": nearby_requesters}
 
 @app.post("/create-request/")
 async def create_request(requester_name: str, restaurant_name: str, delivery_loc: str, expiry: str):
@@ -102,32 +94,25 @@ async def create_request(requester_name: str, restaurant_name: str, delivery_loc
         print(f"API Error: {e}")
         print(e.args)
         
-class DonatorSchema(BaseModel):
-    latitude: float
-    longitude: float
-    radius: int
-    
-class NearbyDonatorsSchema(BaseModel):
-    nearby_donaters: list
-        
-@app.get("/nearby-donaters/")
-async def nearby_donaters(donater_in: DonatorSchema):
+@app.get("/nearby-donators/")
+async def nearby_donators(latitude: float, longitude: float, radius: int):
+    print(latitude, longitude, radius)
     latitude, longitude = 37.42801109129112, -122.17436390356903
     
     response = supabase.table('donaters').select("*").execute()
-    donaters = response.data
+    donators = response.data
 
-    nearby_donaters = []
-    for donater in donaters:
+    nearby_donators = []
+    for donater in donators:
         donater_loc = (donater['lat'], donater['lng'])
         distance = gmaps.distance_matrix((latitude, longitude), donater_loc, mode='walking')
-        if distance['rows'][0]['elements'][0]['distance']['value'] < donater_in.radius:
-            nearby_donaters.append(donater)
+        if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
+            nearby_donators.append(donater)
             
-    return NearbyDonatorsSchema(nearby_donaters=nearby_donaters)
+    return {"nearby_donators": nearby_donators}
 
-@app.post("/create-donater/")
-async def create_donater(name: str, items: str, latitude: float, longitude: float, expiry: str):
+@app.post("/create-donator/")
+async def create_donator(name: str, items: str, latitude: float, longitude: float, expiry: str):
     
     expiry = "2024-02-18T12:00:00Z"
     try:

@@ -1,7 +1,7 @@
 // MarkerComponent.js
 import React from 'react';
 
-const MarkerComponent = ({ name, lat, lng, onClick, isSelf }) => {
+const MarkerComponent = ({ name, lat, lng, color, onClick, isSelf }) => {
   const initials = name
     .split(' ')
     .map(word => word[0])
@@ -13,7 +13,7 @@ const MarkerComponent = ({ name, lat, lng, onClick, isSelf }) => {
         width: '40px',
         height: '40px',
         borderRadius: '50%',
-        backgroundColor: 'rgba(256, 0, 0, 1)',
+        backgroundColor: color,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
