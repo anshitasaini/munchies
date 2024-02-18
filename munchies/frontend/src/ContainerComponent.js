@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ContainerComponent = ({ width, height, borderRadius, borderColor, children }) => {
   const containerStyle = {
-    width: width || '300px',
+    width: width || '100%',
     height: height || '200px',
     borderRadius: borderRadius || '10px',
     border: '2px solid #ccc',

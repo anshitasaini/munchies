@@ -11,8 +11,8 @@ function App() {
   const handleUserClick = (user) => {
     setClickedUser(user);
     // Adjust the map width and margin-left when a user is clicked
-    setMapWidth('75%');
-    setMapMarginLeft('25%');
+    setMapWidth('50%');
+    setMapMarginLeft('5%');
   };
 
   const handleMapClose = () => {
@@ -26,13 +26,11 @@ function App() {
     <div className="App">
       <h1>MUNCHIES</h1>
       {/* InfoBox and Map container */}
-      <div style={{ display: 'flex', height: '100%' }}>
+      <div style={{ display: 'flex'}}>
         {/* InfoBox (visible only when a user is clicked) */}
         {clickedUser && (
-          <div style={{ flex: '1', maxWidth: '50%', padding: '24px', boxSizing: 'border-box' }}>
-            <ContainerComponent
-              width="100%"
-              >
+          <div style={{ flex: '1', padding: '24px', boxSizing: 'border-box' }}>
+            <ContainerComponent>
               <div className="userInfo">
                 <h2>User Information</h2>
                 <p>Name: {clickedUser.name}</p>
@@ -46,7 +44,7 @@ function App() {
         {/* Map (width and margin-left controlled by state) */}
         <div
           style={{
-            flex: '1',
+            flex: '3',
             width: mapWidth,
             marginLeft: mapMarginLeft,
             transition: 'width 0.5s, margin-left 0.5s',
