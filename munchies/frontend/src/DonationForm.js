@@ -116,13 +116,15 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
   return (
     <div style={{ display: 'flex' }}>
       <VStack spacing={4} align={'flex-start'}>
+        {!(requesterActive || donatorActive || restaurantActive) && (
         <Tabs variant="soft-rounded" colorScheme="green" onChange={handleTabChange}>
           <TabList>
             <Tab>Donate</Tab>
             <Tab>Request</Tab>
           </TabList>
         </Tabs>
-
+        )}
+        
         {(activeTab === 'Pickup') && !donatorActive && !requesterActive && (<Heading size="sm">Add items to donate:</Heading>)}
 
         {(activeTab === 'Pickup' && !donatorActive && !requesterActive && itemList.length > 0) && (

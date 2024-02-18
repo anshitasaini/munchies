@@ -23,18 +23,24 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
   const handleRestaurantClick = restaurant => {
     console.log('Restaurant clicked: ', restaurant);
     setRestaurantActive(true);
+    setDonatorActive(false);
+    setRequesterActive(false);
     setRestaurant(restaurant);
   };
 
   const handleDonatorClick = donator => {
     console.log('Donator clicked: ', donator);
     setDonatorActive(true);
+    setRestaurantActive(false);
+    setRequesterActive(false);
     setDonator(donator);
   };
 
   const handleRequesterClick = requester => {
     console.log('Requester clicked: ', requester);
     setRequesterActive(true);
+    setRestaurantActive(false);
+    setDonatorActive(false);
     setRequester(requester);
   };
 
