@@ -11,7 +11,6 @@ export default function MapComponent({ onUserClick }) {
     onUserClick(marker);
   };
 
-
   useEffect(() => {
     // Request user's location
     if (navigator.geolocation) {

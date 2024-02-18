@@ -30,11 +30,13 @@ function App() {
         {/* InfoBox (visible only when a user is clicked) */}
         {clickedUser && (
           <div style={{ flex: '1', padding: '24px', boxSizing: 'border-box' }}>
-            <ContainerComponent>
+            <ContainerComponent
+              height="100%">
               <div className="userInfo">
                 <h2>User Information</h2>
-                <p>Name: {clickedUser.name}</p>
-                <p>Age: {clickedUser.age}</p>
+                <p>Name: {clickedUser.text}</p>
+                <p>Latitude: {clickedUser.lat}</p>
+                <p>Longitude: {clickedUser.lng}</p>
                 {/* Add more user information as needed */}
                 <button onClick={handleMapClose}>Close Info</button>
               </div>
@@ -58,7 +60,7 @@ function App() {
             borderRadius="20px"
             borderColor="rgba(52, 152, 219, 0.5)"
           >
-            <MapComponent latitude={42} longitude={42} onUserClick={handleUserClick} />
+            <MapComponent onUserClick={handleUserClick} />
           </ContainerComponent>
         </div>
       </div>
