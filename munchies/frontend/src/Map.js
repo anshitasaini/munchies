@@ -64,7 +64,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
   const fetchNearbyDonators = async (latitude, longitude) => {
     try {
       const response = await axios.get(donatorsUrl, {
-        params: { latitude: latitude, longitude: longitude, radius: 1000 },
+        params: { latitude: latitude, longitude: longitude, radius: 5000 },
       });
       // console.log("Nearby donators: ", response.data.nearby_donators);
       setNearbyDonators(response.data.nearby_donators);
