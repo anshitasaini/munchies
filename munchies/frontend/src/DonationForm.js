@@ -24,8 +24,8 @@ import TimeDropdown from './TimeDropdown';
 import DateInput from './DateInput';
 import MenuList from './MenuList.js';
 
-const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant, donatorActive, donator }) => {
-  const [activeTab, setActiveTab] = useState('Donate');
+const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester }) => {
+  const [activeTab, setActiveTab] = useState('Pickup');
   const [itemList, setItemList] = useState([]);
   const [address, setAddress] = useState("" + lat + ", " + lng);
   const [newItemName, setNewItemName] = useState('');
@@ -76,7 +76,7 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
 
   const handleTabChange = (index) => {
     setRequestingMode(index === 1);
-    setActiveTab(index === 0 ? 'Donate' : 'Request');
+    setActiveTab(index === 0 ? 'Pickup' : 'Request');
   };
 
   const handleAddressChange = (newAddress) => {
@@ -123,9 +123,9 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
           </TabList>
         </Tabs>
 
-        {(activeTab === 'Donate') && (<Heading size="sm">Add items to donate:</Heading>)}
+        {(activeTab === 'Pickup') && !donatorActive && (<Heading size="sm">Add items to donate:</Heading>)}
 
-        {(activeTab === 'Donate' && itemList.length > 0) && (
+        {(activeTab === 'Pickup' && !donatorActive && itemList.length > 0) && (
           <VStack spacing={4} align="flex-start">
             {itemList.map((item, index) => (
               <div
@@ -155,11 +155,57 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
               </div>
             ))}
           </VStack>
-        
         )}
 
         <div>
-          {activeTab === 'Donate' && (
+          {/* List of Restaurants */}
+          {activeTab === 'Request' && !restaurantActive && (
+            <div>
+              <VStack spacing={4} align="flex-start">
+                <Heading size="sm">Select a restaurant:</Heading>
+                <Text>Restaurant details:</Text>
+                <ul>
+                  {restaurants.map((restaurant, index) => (
+                    <li key={index}>{`${restaurant.name}, ${restaurant.address}`}</li>
+                  ))}
+                </ul>
+              </VStack>
+            </div>
+          )}
+
+        {/* Restaurant Details */}
+        {restaurantActive && (
+          <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
+            <div style={{padding: '6px'}}></div>
+
+            <VStack spacing={4} align="flex-start">
+              <Heading size="sm">Menu</Heading>
+              <MenuList menuItems={menu} />
+            </VStack>
+
+            <div style={{padding: '12px'}}></div>
+          </div>
+        )}
+
+        {/* Donator Details */}
+        {donatorActive && (
+          <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
+            <div style={{padding: '6px'}}></div>
+
+            <VStack spacing={4} align="flex-start">
+              <Heading size="sm">Donator details</Heading>
+              <Text>{donator.name}</Text>
+              <Text>{donator.items}</Text>
+              <Text>{donator.expiry}</Text>
+              </VStack>
+
+              <div style={{padding: '12px'}}></div>
+          </div>
+        )}
+
+        {/* Donation Form */}
+        {activeTab === 'Pickup' && !donatorActive && (
+          <div>
             <VStack spacing={4} align={'flex-start'}>
               {/* Your form elements for donation */}
               <Input
@@ -175,73 +221,46 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
               {/* Add more form elements as needed */}
               <Button style={{color: 'white', backgroundColor: '#45b6fe'}} onClick={handleAddItem}>Add Item</Button>
             </VStack>
-          )}
-
-          {activeTab === 'Request' && !restaurantActive && (
-            <div>
-              <VStack spacing={4} align="flex-start">
-                <Heading size="sm">Select a restaurant:</Heading>
-                <Text>Restaurant details:</Text>
-                <ul>
-                  {restaurants.map((restaurant, index) => (
-                    <li key={index}>{`${restaurant.name}, ${restaurant.address}`}</li>
-                  ))}
-                </ul>
-              </VStack>
-            </div>
-          )}
-
-
-        {restaurantActive && (
-          <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
-            <div style={{padding: '6px'}}></div>
+          
+            <div style={{ padding: '12px' }}></div>
 
             <VStack spacing={4} align="flex-start">
-              <Heading size="sm">Menu</Heading>
-              <MenuList menuItems={menu} />
+              <Heading size="sm">Address:</Heading>
+              <Input value={address} onChange={(e) => handleAddressChange(e.target.value)} />
             </VStack>
 
-            <div style={{padding: '12px'}}></div>
-          </div>
+            <div style={{ padding: '12px' }}></div>
+
+            <VStack spacing={4} align="flex-start">
+              <Heading size="sm">Choose a Date:</Heading>
+              <DateInput value={selectedDate} onChange={handleDateChange} />
+              <Heading size="sm">Latest Time:</Heading>
+              <TimeDropdown/>
+            </VStack>
+          </div> 
         )}
 
-          <div style={{ padding: '12px' }}></div>
+        {/* Submit */}
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Success! {(activeTab === "Pickup" ? ("+") : ("-"))} 1 Coins</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              We've received your {(activeTab === "Pickup" ? ("Pickup") : ("Request"))}!
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" onClick={handleCloseModal}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-          <VStack spacing={4} align="flex-start">
-            <Heading size="sm">Address:</Heading>
-            <Input value={address} onChange={(e) => handleAddressChange(e.target.value)} />
-          </VStack>
+        <div style={{ padding: '12px' }}></div>
 
-          <div style={{ padding: '12px' }}></div>
-
-          <VStack spacing={4} align="flex-start">
-            <Heading size="sm">Choose a Date:</Heading>
-            <DateInput value={selectedDate} onChange={handleDateChange} />
-            <Heading size="sm">Latest Time:</Heading>
-            <TimeDropdown/>
-          </VStack>
-
-          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Success! {(activeTab === "Donate" ? ("+") : ("-"))} 1 Coins</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                We've received your {(activeTab === "Donate" ? ("Donation") : ("Request"))}!
-              </ModalBody>
-              <ModalFooter>
-                <Button colorScheme="blue" onClick={handleCloseModal}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-
+        <Button style={{color: 'white', backgroundColor: 'green'}} onClick={handleSubmit}>Submit</Button>
           
-
-          <div style={{ padding: '12px' }}></div>
-
-          <Button style={{color: 'white', backgroundColor: 'green'}} onClick={handleSubmit}>Submit</Button>
         </div>
       </VStack>
     </div>

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-maps-react-markers'
 import MarkerComponent from './MarkerComponent.js';
 import axios from 'axios';
 
-export default function MapComponent({ onUserClick, requestingMode, setRestaurantActive, setRestaurant, setDonatorActive, setDonator}) {
+export default function MapComponent({ onUserClick, requestingMode, setRestaurantActive, setRestaurant, setDonatorActive, setDonator, setRequesterActive, setRequester}) {
   const [userLocation, setUserLocation] = useState(null);
   const [clickedMarker, setClickedMarker] = useState(null);
   const [nearbyDonators, setNearbyDonators] = useState(null);
@@ -17,6 +16,8 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
   const handleMarkerClick = marker => {
     onUserClick(marker);
     setRestaurantActive(false);
+    setDonatorActive(false);
+    setRequesterActive(false);
   };
 
   const handleRestaurantClick = restaurant => {
@@ -29,6 +30,12 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
     console.log('Donator clicked: ', donator);
     setDonatorActive(true);
     setDonator(donator);
+  };
+
+  const handleRequesterClick = requester => {
+    console.log('Requester clicked: ', requester);
+    setRequesterActive(true);
+    setRequester(requester);
   };
 
   const fetchNearbyDonators = async (latitude, longitude) => {
@@ -358,7 +365,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
               lng={donator.lng}
               name={"D"}
               color={'green'}
-              onClick={handleDonatorClick}
+              onClick={() => handleDonatorClick(donator)}
               isSelf={false}
             />
           ))}
@@ -370,7 +377,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
                 lng={restaurant.location.lng}
                 name={restaurant.name}
                 color={'blue'}
-                onClick={handleRestaurantClick}
+                onClick={() => handleRestaurantClick(restaurant)}
                 isSelf={false}
               />
             );
@@ -382,7 +389,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
               lng={requester.delivery_lng}
               name={"Q"}
               color={'red'}
-              onClick={handleMarkerClick}
+              onClick={() => handleRequesterClick(requester)}
               isSelf={false}
             />
           ))}
