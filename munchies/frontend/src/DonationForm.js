@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Tabs,
   TabList,
@@ -14,6 +14,7 @@ import {
 import { FaTimes } from 'react-icons/fa';
 import TimeDropdown from './TimeDropdown';
 import DateInput from './DateInput';
+import MenuList from './MenuList.js';
 
 const DonationForm = ({lat, lng}) => {
   const [activeTab, setActiveTab] = useState('Donate');
@@ -22,13 +23,34 @@ const DonationForm = ({lat, lng}) => {
   const [newItemName, setNewItemName] = useState('');
   const [newItemDescription, setNewItemDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [restaurants, setRestaurants] = useState([]);
+
+  const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
+  const restaurantsUrl = `http://127.0.0.1:8000/nearby-restaurants/?latitude=${lat}&longitude=${lng}`;
+  const menuUrl = `http://127.0.0.1:8000/restaurant-details/?name=`;
+
+  
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    if (activeTab === 'Request') {
+      // Fetch restaurant data when the activeTab is 'Request'
+      fetch(restaurantsUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          setRestaurants(data.nearby_restaurants);
+        })
+        .catch((error) => {
+          console.error('Error fetching restaurant data:', error);
+        });
+    }
+  }, [activeTab, restaurantsUrl]);
+
 
   const handleDateChange = (value) => {
     // Ensure value is a valid date format (MM/DD/YYYY or MM/DD/YY)
     setSelectedDate(value);
   };
-
-
 
   const handleTabChange = (index) => {
     setActiveTab(index === 0 ? 'Donate' : 'Request');
@@ -123,6 +145,34 @@ const DonationForm = ({lat, lng}) => {
               <Button style={{color: 'white', backgroundColor: '#45b6fe'}} onClick={handleAddItem}>Add Item</Button>
             </VStack>
           )}
+
+          {activeTab === 'Request' && (
+            <div>
+              <VStack spacing={4} align="flex-start">
+                <Heading size="sm">Select a restaurant:</Heading>
+                <Text>Restaurant details:</Text>
+                <ul>
+                  {restaurants.map((restaurant, index) => (
+                    <li key={index}>{`${restaurant.name}, ${restaurant.address}`}</li>
+                  ))}
+                </ul>
+              </VStack>
+            </div>
+          )}
+
+
+        {(menu) && (
+          <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
+            <div style={{padding: '6px'}}></div>
+
+            <VStack spacing={4} align="flex-start">
+              <Heading size="sm">Menu</Heading>
+              <MenuList menuItems={menu} />
+            </VStack>
+
+            <div style={{padding: '12px'}}></div>
+          </div>
+        )}
 
           <div style={{ padding: '12px' }}></div>
 

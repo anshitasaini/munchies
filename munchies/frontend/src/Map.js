@@ -112,14 +112,16 @@ export default function MapComponent({ onUserClick }) {
           {nearbyRestaurants && nearbyRestaurants.map(restaurant => (
             <MarkerComponent
               key={restaurant.id}
+              address={restaurant.address}
               lat={restaurant.location.lat}
               lng={restaurant.location.lng}
-              name={"R"}
+              name={restaurant.name}
               color={'blue'}
               onClick={handleMarkerClick}
               isSelf={false}
             />
           ))}
+
         </GoogleMapReact>
       )}
     </div>
