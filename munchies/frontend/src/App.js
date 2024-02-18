@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
   Image,
   Heading
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
 import './App.css';
 import MapComponent from './Map.js';
 import ContainerComponent from './ContainerComponent.js';
@@ -26,10 +18,14 @@ function App() {
   const [mapMarginLeft, setMapMarginLeft] = useState('0px');
 
   const handleUserClick = (user) => {
-    setClickedUser(user);
-    // Adjust the map width and margin-left when a user is clicked
-    setMapWidth('50%');
-    
+    // Toggle the info box visibility if the same user is clicked again
+    if (clickedUser && clickedUser.id === user.id) {
+      handleMapClose();
+    } else {
+      setClickedUser(user);
+      // Adjust the map width when a user is clicked
+      setMapWidth('50%');
+    }
   };
 
   const handleMapClose = () => {

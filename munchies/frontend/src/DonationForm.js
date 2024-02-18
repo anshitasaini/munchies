@@ -10,6 +10,14 @@ import {
   Button,
   Heading,
   IconButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Image
 } from '@chakra-ui/react';
 import { FaTimes } from 'react-icons/fa';
 import TimeDropdown from './TimeDropdown';
@@ -24,6 +32,7 @@ const DonationForm = ({lat, lng}) => {
   const [newItemDescription, setNewItemDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [restaurants, setRestaurants] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
   const restaurantsUrl = `http://127.0.0.1:8000/nearby-restaurants/?latitude=${lat}&longitude=${lng}`;
@@ -80,6 +89,14 @@ const DonationForm = ({lat, lng}) => {
     // Submit data to the backend for processing
     console.log('Submitting data:', { activeTab, itemList, address });
     // Add your backend submission logic here
+
+    // Open the modal
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    // Close the modal
+    setIsModalOpen(false);
   };
 
   return (
@@ -189,6 +206,22 @@ const DonationForm = ({lat, lng}) => {
             <Heading size="sm">Latest Time:</Heading>
             <TimeDropdown/>
           </VStack>
+
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Success! {(activeTab === "Donate" ? ("+") : ("-"))} 1 Coins</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                We've received your {(activeTab === "Donate" ? ("Donation") : ("Request"))}!
+              </ModalBody>
+              <ModalFooter>
+                <Button colorScheme="blue" onClick={handleCloseModal}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
 
           
 
