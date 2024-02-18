@@ -16,16 +16,16 @@ const MenuItem = ({ itemName, price, category, allergens }) => {
   };
 
   return (
-    <VStack spacing={2} align="flex-start" borderBottom="1px solid #ddd" pb={2} mb={2}>
+    <VStack spacing={1} align="flex-start" width="100%" borderBottom="1px solid #ddd" pb={2} mb={4}>
       <Heading size="sm">{itemName}</Heading>
-      <Text>{category}</Text>
-      <Text>{allergens ? `Allergens: ${allergens}` : 'No allergens'}</Text>
+      <Text style={{ fontSize: '14px' }}>{category}</Text>
+      <Text style={{ fontSize: '14px' }}>{allergens ? `Allergens: ${allergens}` : 'No allergens'}</Text>
       <HStack justifyContent="space-between" width="100%">
-        <Text>{price}</Text>
+        <Text style={{ fontSize: '14px' }}>{price}</Text>
         <HStack>
-          <IconButton icon={<FaMinus />} onClick={handleDecrement} />
-          <Text>{quantity}</Text>
-          <IconButton icon={<FaPlus />} onClick={handleIncrement} />
+          <IconButton icon={<FaMinus style={{ fontSize: '10px' }} />} onClick={handleDecrement} p={1}  size="sm" /> 
+          <Text style={{ fontSize: '14px' }}>{quantity}</Text>
+          <IconButton icon={<FaPlus style={{ fontSize: '10px' }} />} onClick={handleDecrement} p={1} size="sm" /> 
         </HStack>
       </HStack>
     </VStack>

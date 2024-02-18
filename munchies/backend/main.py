@@ -42,18 +42,32 @@ async def nearby_restaurants(latitude: float, longitude: float):
     # default location set to Jen Hsung
     places_result = gmaps.places_nearby(location=(37.42801109129112, -122.17436390356903), radius=1000, keyword='food')
     
+    with open('stanford_menus.json', 'r') as file:
+        menu_data = json.load(file)
+
+    with open('stanford_imgs.json', 'r') as file:
+        img_data = json.load(file)
+    
     restaurants = []
     for place in places_result['results']:
         print(place)
         name = place.get('name')
         location = place.get('geometry', {}).get('location', {})
-        restaurants.append({'name': place.get('name'), 'address': place.get('vicinity'), 'location': location})
+        restaurant = {'name': place.get('name'), 'address': place.get('vicinity'), 'location': location}
+        
+        if name in img_data:
+            restaurant['img'] = img_data[name]
+        
+        if name in menu_data:
+            restaurant['menu'] = menu_data[name]
+        
+        restaurants.append(restaurant)
     
     return {"nearby_restaurants": restaurants}
 
 @app.get("/restaurant-details/")
 async def restaurant_details(name: str):
-    with open('stanford_restaurants.json', 'r') as file:
+    with open('stanford_menus.json', 'r') as file:
         data = json.load(file)
     
     print(data[name])
@@ -122,6 +136,11 @@ async def create_donator(name: str, items: str, latitude: float, longitude: floa
     except postgrest.exceptions.APIError as e:
         print(f"API Error: {e}")
         print(e.args)
+
+@app.get("/get-address/")
+async def get_address(lat: float, lng: float):
+    reverse_geocode_result = gmaps.reverse_geocode((lat, lng))
+    return reverse_geocode_result[0]['formatted_address'] if reverse_geocode_result else "Address not found"
         
 @app.get("/get-user/")
 async def get_user(id: int):

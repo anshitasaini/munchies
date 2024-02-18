@@ -28,14 +28,14 @@ function App() {
   const userUrl = `http://127.0.0.1:8000/get-user/?id=`;
 
   const fetchUser = (userId) => {
-    return fetch(userUrl + userId)
+    fetch(userUrl + userId)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
       })
       .catch((error) => {
         console.error('Error fetching user data:', error);
-      });
+    });
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function App() {
             <div style={{ flex: 1, padding: '12px'}}>
               <ContainerComponent
                 height="100%">
-                <InfoBox user={user} userId={currentUserId} onClose={closeModal} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester}/>
+                <InfoBox user={user} onClose={closeModal} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester}/>
               </ContainerComponent>
             </div>
           )}

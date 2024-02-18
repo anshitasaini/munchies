@@ -12,6 +12,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
   const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
   const restaurantsUrl = 'http://127.0.0.1:8000/nearby-restaurants/';
   const requestersUrl = 'http://127.0.0.1:8000/nearby-requesters/';
+  const addressUrl = 'http://127.0.0.1:8000/get-address/';
 
   const trackDoubleClick = marker => {
     if (previousClick === marker) {
@@ -96,6 +97,20 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
     }
   };
 
+  const fetchUserAddress = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(addressUrl, {
+        params: { lat: latitude, lng: longitude },
+      });
+      user.address = response.data;
+      user.lat = latitude;
+      user.lng = longitude;
+      setUser(user);
+    } catch (error) {
+      console.error('Failed to fetch address:', error);
+    }
+  };
+
   useEffect(() => {
     // Request user's location
     if (navigator.geolocation) {
@@ -129,9 +144,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
 
   useEffect(() => {
     if (userLocation) {
-      user.lat = userLocation.lat;
-      user.lng = userLocation.lng;
-      setUser(user);
+      fetchUserAddress(userLocation.lat, userLocation.lng);
     }
   }, [userLocation]);
 
@@ -409,6 +422,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
                 color={'blue'}
                 onClick={() => handleRestaurantClick(restaurant)}
                 isSelf={false}
+                imageSrc={restaurant.img}
               />
             );
           })}
