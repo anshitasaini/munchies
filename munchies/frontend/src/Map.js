@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact from 'google-map-react';
+import MarkerComponent from "./MarkerComponent.js";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
-export default function MapComponent() {
+export default function MapComponent({ children }) {
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -11,8 +10,9 @@ export default function MapComponent() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          let { latitude, longitude } = position.coords;
           setUserLocation({ lat: latitude, lng: longitude });
+          console.log("Set Location to: " + latitude + ", " + longitude)
         },
         (error) => {
           console.error(error.message);
@@ -29,27 +29,23 @@ export default function MapComponent() {
 
   const defaultCenter = { lat: 37.7749, lng: -122.4194 }; // Default center
 
+  // Conditionally render the map only when userLocation is available
+  const renderMap = userLocation !== null;
+
   return (
     <div style={{ height: '100%', width: '100%', margin: 0, padding: 0, borderRadius: '20px', overflow: 'hidden' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyDmKOqWCNapS3k2aAHMQmq0btM3-cNnDKM" }} // Replace with your actual API key
-        center={userLocation || defaultCenter} // Use user's location if available, otherwise default
-        defaultZoom={15}
-      >
-        <AnyReactComponent
-          lat={defaultCenter.lat}
-          lng={defaultCenter.lng}
-          text="My Marker"
-        />
-
-        {userLocation && (
-          <AnyReactComponent
-            lat={userLocation.lat}
-            lng={userLocation.lng}
-            text="You are here"
-          />
-        )}
-      </GoogleMapReact>
+      {renderMap && (
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyDmKOqWCNapS3k2aAHMQmq0btM3-cNnDKM" }}
+          center={userLocation || defaultCenter}
+          defaultZoom={15}
+        >
+          {userLocation && <MarkerComponent lat={userLocation.lat} lng={userLocation.lng} text={'B'} />}
+        </GoogleMapReact>
+      )}
     </div>
   );
 }
+
+
+

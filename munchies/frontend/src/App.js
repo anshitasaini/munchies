@@ -1,7 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import MapComponent from './Map.js';
 import ContainerComponent from './ContainerComponent.js';
+
 
 function App() {
   return (
