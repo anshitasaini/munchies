@@ -42,6 +42,7 @@ async def restaurant_details(name: str):
 @app.get("/nearby-requesters/")
 async def nearby_requesters(latitude: float, longitude: float, radius: int):
     latitude, longitude = 37.42801109129112, -122.17436390356903
+    current_loc = (latitude, longitude)
     
     response = supabase.table('requesters').select("*").execute()
     requesters = response.data
@@ -50,8 +51,7 @@ async def nearby_requesters(latitude: float, longitude: float, radius: int):
     nearby_requesters = []
     for requester in requesters:
         delivery_loc = (requester['delivery_lat'], requester['delivery_lng'])
-        restaurant_loc = (requester['restaurant_lat'], requester['restaurant_lng'])
-        distance = gmaps.distance_matrix(delivery_loc, restaurant_loc, mode='walking')
+        distance = gmaps.distance_matrix(delivery_loc, current_loc, mode='walking')
         if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
             nearby_requesters.append(requester)
             
@@ -75,8 +75,22 @@ async def create_request(requester_name: str, restaurant_name: str, delivery_loc
     except postgrest.exceptions.APIError as e:
         print(f"API Error: {e}")
         print(e.args)
+        
+@app.post("/nearby-donaters/")
+async def nearby_donaters(latitude: float, longitude: float, radius: int):
+    latitude, longitude = 37.42801109129112, -122.17436390356903
     
-# @app.get("/")
+    response = supabase.table('donaters').select("*").execute()
+    donaters = response.data
+
+    nearby_donaters = []
+    for donater in donaters:
+        donater_loc = (donater['lat'], donater['lng'])
+        distance = gmaps.distance_matrix((latitude, longitude), donater_loc, mode='walking')
+        if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
+            nearby_donaters.append(donater)
+            
+    return {"donaters": nearby_donaters}
     
 @app.get("/")
 async def root():
