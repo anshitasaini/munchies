@@ -408,7 +408,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
               lat={donator.lat}
               lng={donator.lng}
               name={donator.name}
-              color={'green'}
+              color={'blue'}
               onClick={() => handleDonatorClick(donator)}
               isSelf={false}
             />
