@@ -123,9 +123,9 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
           </TabList>
         </Tabs>
 
-        {(activeTab === 'Pickup') && !donatorActive && (<Heading size="sm">Add items to donate:</Heading>)}
+        {(activeTab === 'Pickup') && !donatorActive && !requesterActive && (<Heading size="sm">Add items to donate:</Heading>)}
 
-        {(activeTab === 'Pickup' && !donatorActive && itemList.length > 0) && (
+        {(activeTab === 'Pickup' && !donatorActive && !requesterActive && itemList.length > 0) && (
           <VStack spacing={4} align="flex-start">
             {itemList.map((item, index) => (
               <div
@@ -203,8 +203,25 @@ const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant
           </div>
         )}
 
+        {/* Requester Details */}
+        {requesterActive && (
+          <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
+            <div style={{padding: '6px'}}></div>
+
+            <VStack spacing={4} align="flex-start">
+              <Heading size="sm">Requester details</Heading>
+              <Text>{requester.name}</Text>
+              <Text>{requester.restaurant_name}</Text>
+              <Text>{requester.order}</Text>
+              <Text>{requester.expiry}</Text>
+            </VStack>
+
+            <div style={{padding: '12px'}}></div>
+          </div>
+        )}
+
         {/* Donation Form */}
-        {activeTab === 'Pickup' && !donatorActive && (
+        {activeTab === 'Pickup' && !donatorActive && !requesterActive && (
           <div>
             <VStack spacing={4} align={'flex-start'}>
               {/* Your form elements for donation */}
