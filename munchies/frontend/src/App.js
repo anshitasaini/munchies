@@ -10,10 +10,11 @@ import MapComponent from './Map.js';
 import ContainerComponent from './ContainerComponent.js';
 import InfoBox from './InfoBox.js';
 import bear from './munchies_logo.png'
-
+import LoadingScreen from './LoadingScreen.js';
 
 function App() {
   const currentUserId = 1;
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [mapWidth, setMapWidth] = useState('100%');
@@ -26,6 +27,10 @@ function App() {
   const [requesterActive, setRequesterActive] = useState(false);
   const [requester, setRequester] = useState([]);
   const userUrl = `http://127.0.0.1:8000/get-user/?id=`;
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
 
   const fetchUser = (userId) => {
     fetch(userUrl + userId)
@@ -56,8 +61,11 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
+    <div>
+      {isLoading ? 
+      <LoadingScreen onLoadingComplete={handleLoadingComplete} /> :
+    
       <div className="App">
-
         <div style={{ display: 'flex', marginLeft: '80px', marginTop: '24px'}}>
             <Image src={bear} boxSize='60px'></Image>
             <div style={{padding: '12px'}}></div>
@@ -97,7 +105,9 @@ function App() {
           </div>
         </div>
       </div>
-    </ChakraProvider>
+    }
+      </div>
+      </ChakraProvider>
   );
 }
 
