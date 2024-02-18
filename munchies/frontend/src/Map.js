@@ -4,7 +4,7 @@ import GoogleMap from 'google-maps-react-markers'
 import MarkerComponent from './MarkerComponent.js';
 import axios from 'axios';
 
-export default function MapComponent({ onUserClick, requestingMode }) {
+export default function MapComponent({ onUserClick, requestingMode, setRestaurantActive, setRestaurant, setDonatorActive, setDonator}) {
   const [userLocation, setUserLocation] = useState(null);
   const [clickedMarker, setClickedMarker] = useState(null);
   const [nearbyDonators, setNearbyDonators] = useState(null);
@@ -16,6 +16,19 @@ export default function MapComponent({ onUserClick, requestingMode }) {
 
   const handleMarkerClick = marker => {
     onUserClick(marker);
+    setRestaurantActive(false);
+  };
+
+  const handleRestaurantClick = restaurant => {
+    console.log('Restaurant clicked: ', restaurant);
+    setRestaurantActive(true);
+    setRestaurant(restaurant);
+  };
+
+  const handleDonatorClick = donator => {
+    console.log('Donator clicked: ', donator);
+    setDonatorActive(true);
+    setDonator(donator);
   };
 
   const fetchNearbyDonators = async (latitude, longitude) => {
@@ -329,7 +342,6 @@ export default function MapComponent({ onUserClick, requestingMode }) {
               }
           ]
           }}
-          // yesIWantToUseGoogleMapApiInternals
         >
           <MarkerComponent
             lat={userLocation.lat}
@@ -346,12 +358,11 @@ export default function MapComponent({ onUserClick, requestingMode }) {
               lng={donator.lng}
               name={"D"}
               color={'green'}
-              onClick={handleMarkerClick}
+              onClick={handleDonatorClick}
               isSelf={false}
             />
           ))}
           {requestingMode && nearbyRestaurants.map(restaurant => {
-            console.log("mapping restaurants");
             return (
               <MarkerComponent
                 key={restaurant.id}
@@ -359,7 +370,7 @@ export default function MapComponent({ onUserClick, requestingMode }) {
                 lng={restaurant.location.lng}
                 name={restaurant.name}
                 color={'blue'}
-                onClick={handleMarkerClick}
+                onClick={handleRestaurantClick}
                 isSelf={false}
               />
             );

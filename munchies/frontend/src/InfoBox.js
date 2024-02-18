@@ -16,7 +16,7 @@ import DonationForm from './DonationForm';
 import { FaMap } from "react-icons/fa";
 
 
-const InfoBox = ({ user, onClose, setRequestingMode }) => {
+const InfoBox = ({ user, onClose, setRequestingMode, restaurantActive, restaurant, donatorActive, donator }) => {
   const { name, address, lat, lng, isSelf } = user;
 
   return (
@@ -42,7 +42,7 @@ const InfoBox = ({ user, onClose, setRequestingMode }) => {
       
       {isSelf ? (
         <div style={{paddingTop: '24px'}}>
-            <DonationForm lat={lat} lng={lng} setRequestingMode={setRequestingMode}/>
+            <DonationForm lat={lat} lng={lng} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator}/>
         </div>
         
       ) : (

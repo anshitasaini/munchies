@@ -24,7 +24,7 @@ import TimeDropdown from './TimeDropdown';
 import DateInput from './DateInput';
 import MenuList from './MenuList.js';
 
-const DonationForm = ({lat, lng, setRequestingMode}) => {
+const DonationForm = ({lat, lng, setRequestingMode, restaurantActive, restaurant, donatorActive, donator }) => {
   const [activeTab, setActiveTab] = useState('Donate');
   const [itemList, setItemList] = useState([]);
   const [address, setAddress] = useState("" + lat + ", " + lng);
@@ -33,13 +33,26 @@ const DonationForm = ({lat, lng, setRequestingMode}) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [menu, setMenu] = useState([{item_name: 'Loading...', price: 'Loading...', category: 'Loading...', allergens: 'Loading...'}]);
 
   const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
   const restaurantsUrl = `http://127.0.0.1:8000/nearby-restaurants/?latitude=${lat}&longitude=${lng}`;
   const menuUrl = `http://127.0.0.1:8000/restaurant-details/?name=`;
 
-  
-  const [menu, setMenu] = useState([]);
+  useEffect(() => {
+    if (restaurantActive) {
+      // Fetch restaurant data when the activeTab is 'Request'
+      fetch(menuUrl + restaurant.name)
+        .then((response) => response.json())
+        .then((data) => {
+          setMenu(data.menu_items);
+          console.log(data.menu_items);
+        })
+        .catch((error) => {
+          console.error('Error fetching restaurant details:', error);
+        });
+    }
+  }, [restaurantActive, restaurant]);
 
   useEffect(() => {
     if (activeTab === 'Request') {
@@ -164,7 +177,7 @@ const DonationForm = ({lat, lng, setRequestingMode}) => {
             </VStack>
           )}
 
-          {activeTab === 'Request' && (
+          {activeTab === 'Request' && !restaurantActive && (
             <div>
               <VStack spacing={4} align="flex-start">
                 <Heading size="sm">Select a restaurant:</Heading>
@@ -179,7 +192,7 @@ const DonationForm = ({lat, lng, setRequestingMode}) => {
           )}
 
 
-        {(menu) && (
+        {restaurantActive && (
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 

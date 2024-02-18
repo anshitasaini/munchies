@@ -17,6 +17,10 @@ function App() {
   const [mapWidth, setMapWidth] = useState('100%');
   const [requestingMode, setRequestingMode] = useState(false);
   const [mapMarginLeft, setMapMarginLeft] = useState('0px');
+  const [restaurantActive, setRestaurantActive] = useState(false);
+  const [restaurant, setRestaurant] = useState([]);
+  const [donatorActive, setDonatorActive] = useState(false);
+  const [donator, setDonator] = useState([]);
 
   const handleUserClick = (user) => {
     // Toggle the info box visibility if the same user is clicked again
@@ -54,7 +58,7 @@ function App() {
             <div style={{ flex: 1, padding: '12px'}}>
               <ContainerComponent
                 height="100%">
-                <InfoBox user={clickedUser} onClose={handleMapClose} setRequestingMode={setRequestingMode} />
+                <InfoBox user={clickedUser} onClose={handleMapClose} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} />
               </ContainerComponent>
             </div>
           )}
@@ -73,7 +77,7 @@ function App() {
               borderRadius="20px"
               borderColor="rgba(52, 152, 219, 0.5)"
             >
-              <MapComponent onUserClick={handleUserClick} requestingMode={requestingMode} />
+              <MapComponent onUserClick={handleUserClick} requestingMode={requestingMode} setRestaurantActive={setRestaurantActive} setRestaurant={setRestaurant} setDonatorActive={setDonatorActive} setDonator={setDonator} />
             </ContainerComponent>
           </div>
         </div>
