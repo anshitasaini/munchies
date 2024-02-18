@@ -1,7 +1,12 @@
 // MarkerComponent.js
 import React from 'react';
 
-const MarkerComponent = ({ lat, lng, text, onClick }) => {
+const MarkerComponent = ({ name, lat, lng, onClick, isSelf }) => {
+  const initials = name
+    .split(' ')
+    .map(word => word[0])
+    .join('');
+
   return (
     <div
       style={{
@@ -14,11 +19,14 @@ const MarkerComponent = ({ lat, lng, text, onClick }) => {
         alignItems: 'center',
         color: '#fff',
         fontWeight: 'bold',
-        cursor: 'pointer', // Add cursor style for indicating it's clickable
+        cursor: 'pointer',
+        borderColor: 'white',
+        borderWidth: '2px'
       }}
-      onClick={() => onClick({ lat, lng, text })}
+      onClick = {() => onClick({ name, lat, lng, isSelf })}
+      
     >
-      <h1>{text}</h1>
+      <h1>{initials}</h1>
     </div>
   );
 };

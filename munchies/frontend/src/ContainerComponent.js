@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContainerComponent = ({ width, height, borderRadius, borderColor, children }) => {
+const ContainerComponent = ({
+  width,
+  height,
+  borderRadius,
+  borderColor,
+  children,
+}) => {
   const containerStyle = {
     width: width || '100%',
     height: height || '200px',
@@ -11,11 +17,7 @@ const ContainerComponent = ({ width, height, borderRadius, borderColor, children
     boxSizing: 'border-box',
   };
 
-  return (
-    <div style={containerStyle}>
-      {children}
-    </div>
-  );
+  return <div style={containerStyle}>{children}</div>;
 };
 
 ContainerComponent.propTypes = {
