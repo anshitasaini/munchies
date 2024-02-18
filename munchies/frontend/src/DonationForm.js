@@ -315,7 +315,7 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
 
         {!(activeTab === 'Request' && !restaurantActive && !requesterActive && !donatorActive) && !requesterActive && !donatorActive && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleSubmit}>Submit</Button>}
 
-        {requesterActive || donatorActive && !restaurantActive && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleFulfillment}>Fulfill</Button>}
+        {(requesterActive || donatorActive) && !restaurantActive && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleFulfillment}>Fulfill</Button>}
 
       </VStack>
     </div>

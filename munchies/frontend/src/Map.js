@@ -45,7 +45,6 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
   const handleDonatorClick = donator => {
     console.log('Donator clicked: ', donator);
     trackDoubleClick(donator);
-    setRestaurantActive(true);
     setDonatorActive(true);
     setRestaurantActive(false);
     setRequesterActive(false);
