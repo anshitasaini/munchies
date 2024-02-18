@@ -17,6 +17,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Divider,
   Image
 } from '@chakra-ui/react';
 import { FaTimes } from 'react-icons/fa';
@@ -109,6 +110,8 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
     .catch((error) => { console.log(error); });
   };
 
+  const handleFulfillment = () => {
+  };
 
   const handleSubmit = () => {
     if (requesterActive || (!donatorActive && !restaurantActive && !requesterActive)) {
@@ -206,14 +209,24 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 
-            <VStack spacing={4} align="flex-start">
-              <Heading size="sm">Donator details</Heading>
-              <Text>{donator.name}</Text>
-              <Text>{donator.items}</Text>
-              <Text>{donator.expiry}</Text>
-              </VStack>
+            <VStack spacing={3} align="flex-start">
+              <Heading size="sm">Donation Details</Heading>
+              <Text><strong>Name:</strong> {donator.name}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+              <Text><strong>Items:</strong> {donator.items}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+              <Text><strong>Expiry:</strong></Text>
+              <Text> {new Date(donator.expiry).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+              })}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+            </VStack>
 
-              <div style={{padding: '12px'}}></div>
           </div>
         )}
 
@@ -222,15 +235,25 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
           <div style={{overflow: 'scroll', width:'100%', maxHeight: '300px'}}>
             <div style={{padding: '6px'}}></div>
 
-            <VStack spacing={4} align="flex-start">
-              <Heading size="sm">Requester details</Heading>
-              <Text>{requester.name}</Text>
-              <Text>{requester.restaurant_name}</Text>
-              <Text>{requester.order}</Text>
-              <Text>{requester.expiry}</Text>
+            <VStack spacing={3} align="flex-start">
+              <Heading size="sm">Request Details</Heading>
+              <Text><strong>Name:</strong> {requester.name}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+              <Text><strong>Restaurant:</strong> {requester.restaurant_name}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+              <Text><strong>Order:</strong> {requester.order}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
+              <Text><strong>Expiry:</strong></Text>
+              <Text> {new Date(requester.expiry).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+              })}</Text>
+              <Divider borderColor="gray.200" /> {/* Gray separator */}
             </VStack>
-
-            <div style={{padding: '12px'}}></div>
           </div>
         )}
 
@@ -290,8 +313,10 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
 
         <div style={{ padding: '2px' }}></div>
 
-        {!(activeTab === 'Request' && !restaurantActive && !requesterActive && !donatorActive) && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleSubmit}>Submit</Button>}
-          
+        {!(activeTab === 'Request' && !restaurantActive && !requesterActive && !donatorActive) && !requesterActive && !donatorActive && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleSubmit}>Submit</Button>}
+
+        {requesterActive || donatorActive && !restaurantActive && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleFulfillment}>Fulfill</Button>}
+
       </VStack>
     </div>
   );

@@ -272,5 +272,187 @@
         "rating": "75% (77)"
       }
     ]
+  },
+  "Lutticken's Deli" : {
+    "menu_items": [
+      {
+        "item_name": "Egg Salad Sandwich",
+        "price": "$11.00+",
+        "category": "Best Sellers",
+        "allergens": null
+      },
+      {
+        "item_name": "Roast Turkey Sandwich",
+        "price": "$11.00+",
+        "category": "Best Sellers",
+        "allergens": null
+      },
+      {
+        "item_name": "Cheese Sandwich",
+        "price": "$11.00+",
+        "category": "Sandwiches",
+        "allergens": null
+      },
+      {
+        "item_name": "Egg Salad Sandwich",
+        "price": "$11.00+",
+        "category": "Best Seller",
+        "allergens": null
+      },
+      {
+        "item_name": "Pastrami Sandwich",
+        "price": "$11.00+",
+        "category": "Sandwiches",
+        "allergens": null
+      },
+      {
+        "item_name": "Veggie Sandwich",
+        "price": "$11.50+",
+        "category": "Sandwiches",
+        "allergens": null
+      },
+      {
+        "item_name": "Italian Sub Sandwich",
+        "price": "$11.50+",
+        "category": "Sandwiches",
+        "allergens": null
+      },
+      {
+        "item_name": "Genoa Salami Sandwich",
+        "price": "$11.00+",
+        "category": "Sandwiches",
+        "allergens": null
+      }
+    ]
+  },
+  "The Axe & Palm (TAP)" : {
+    "menu_items": [
+      {
+        "item_name": "The Black Bean",
+        "price": "$9.99",
+        "allergens": null
+      },
+      {
+        "item_name": "Immortal 21 - Chicken",
+        "price": "$11.99",
+        "allergens": null
+      },
+      {
+        "item_name": "The Axe - Angus Beef",
+        "price": "$9.99",
+        "allergens": null
+      },
+      {
+        "item_name": "Burger Tenders",
+        "price": null,
+        "allergens": [
+          "CONTAINS WHEAT"
+        ]
+      },
+      {
+        "item_name": "Vegetarian quarter-pound black bean",
+        "price": null,
+        "allergens": [
+          "CONTAINS SOY",
+          "CONTAINS WHEAT"
+        ]
+      },
+      {
+        "item_name": "Crispy chicken tenders",
+        "price": null,
+        "allergens": [
+          "CONTAINS WHEAT",
+          "CONTAINS DAIRY",
+          "CONTAINS SOY"
+        ]
+      },
+      {
+        "item_name": "Plant Forward Burger",
+        "price": "$11.99",
+        "allergens": null
+      },
+      {
+        "item_name": "The Red Zone",
+        "price": "$10.99",
+        "allergens": null
+      },
+      {
+        "item_name": "The Palm Burger",
+        "price": "$11.49",
+        "allergens": [
+          "Contains Soy",
+          "Contains Dairy",
+          "Contains Wheat"
+        ]
+      },
+      {
+        "item_name": "The Wacky Walk - Chicken",
+        "price": "$11.29",
+        "allergens": null
+      },
+      {
+        "item_name": "The Axe Late Night",
+        "price": "$9.99",
+        "allergens": null
+      },
+      {
+        "item_name": "The Farm Black Bean",
+        "price": "$9.99",
+        "allergens": null
+      },
+      {
+        "item_name": "Breast Burger",
+        "price": null,
+        "allergens": [
+          "CONTAINS SOY",
+          "CONTAINS WHEAT"
+        ]
+      },
+      {
+        "item_name": "Burger - Late Night",
+        "price": null,
+        "allergens": [
+          "CONTAINS WHEAT",
+          "CONTAINS DAIRY",
+          "CONTAINS SOY"
+        ]
+      }
+    ]
+  },
+  "Stern Dining" : {
+    "menu_items": [
+      {
+        "item_name": "Smoked Rotisserie Chicken",
+        "allergens": ["Gluten Free", "Halal"]
+      },
+      {
+        "item_name": "Braised Cabbage & Potato Stew",
+        "allergens": ["Gluten Free", "Vegan", "Halal"]
+      },
+      {
+        "item_name": "Zucchini & Charred Tomatoes",
+        "allergens": ["Gluten Free", "Vegan", "Halal"]
+      },
+      {
+        "item_name": "Seasonal Steamed Vegetables",
+        "allergens": ["Gluten Free", "Vegan", "Halal"]
+      },
+      {
+        "item_name": "Rosemary & Thyme Potatoes",
+        "allergens": ["Gluten Free", "Vegan", "Halal"]
+      },
+      {
+        "item_name": "Assorted Dinner Rolls",
+        "allergens": ["Vegetarian", "Halal", "Contains: SESAME, WHEAT", "Made on shared equipment with MILK, SOY, TREENUTS"]
+      },
+      {
+        "item_name": "Pepperoni Pizza",
+        "allergens": ["Contains: MILK, SOY, WHEAT", "Made on shared equipment with EGG, SESAME"]
+      },
+      {
+        "item_name": "Caprese Pizza",
+        "allergens": ["Contains: MILK, SOY, WHEAT", "Made on shared equipment with EGG, SESAME"]
+      }
+    ]
   }
 }
