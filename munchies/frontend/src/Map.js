@@ -3,18 +3,30 @@ import GoogleMap from 'google-maps-react-markers'
 import MarkerComponent from './MarkerComponent.js';
 import axios from 'axios';
 
-export default function MapComponent({ onUserClick, requestingMode, setRestaurantActive, setRestaurant, setDonatorActive, setDonator, setRequesterActive, setRequester}) {
+export default function MapComponent({ requestingMode, setRestaurantActive, setRestaurant, setDonatorActive, setDonator, setRequesterActive, setRequester, userId, openModal, closeModal, user, setUser}) {
   const [userLocation, setUserLocation] = useState(null);
-  const [clickedMarker, setClickedMarker] = useState(null);
   const [nearbyDonators, setNearbyDonators] = useState(null);
   const [nearbyRestaurants, setNearbyRestaurants] = useState(null);
   const [nearbyRequesters, setNearbyRequesters] = useState(null);
+  const [previousClick, setPreviousClick] = useState(null);
   const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
   const restaurantsUrl = 'http://127.0.0.1:8000/nearby-restaurants/';
   const requestersUrl = 'http://127.0.0.1:8000/nearby-requesters/';
 
+  const trackDoubleClick = marker => {
+    if (previousClick === marker) {
+      setPreviousClick(null);
+      closeModal();
+    } else {
+      setPreviousClick(marker);
+      openModal();
+    }
+  };
+
   const handleMarkerClick = marker => {
-    onUserClick(marker);
+    user.isSelf = true;
+    setUser(user);
+    trackDoubleClick(marker);
     setRestaurantActive(false);
     setDonatorActive(false);
     setRequesterActive(false);
@@ -22,6 +34,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
 
   const handleRestaurantClick = restaurant => {
     console.log('Restaurant clicked: ', restaurant);
+    trackDoubleClick(restaurant);
     setRestaurantActive(true);
     setDonatorActive(false);
     setRequesterActive(false);
@@ -30,6 +43,8 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
 
   const handleDonatorClick = donator => {
     console.log('Donator clicked: ', donator);
+    trackDoubleClick(donator);
+    setRestaurantActive(true);
     setDonatorActive(true);
     setRestaurantActive(false);
     setRequesterActive(false);
@@ -38,6 +53,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
 
   const handleRequesterClick = requester => {
     console.log('Requester clicked: ', requester);
+    trackDoubleClick(requester);
     setRequesterActive(true);
     setRestaurantActive(false);
     setDonatorActive(false);
@@ -110,6 +126,14 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
       fetchNearbyRequesters(37.7749, -122.4194);
     }
   }, []);
+
+  useEffect(() => {
+    if (userLocation) {
+      user.lat = userLocation.lat;
+      user.lng = userLocation.lng;
+      setUser(user);
+    }
+  }, [userLocation]);
 
   // print requesting mode whenever it is changed
   useEffect(() => {
@@ -359,9 +383,9 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
           <MarkerComponent
             lat={userLocation.lat}
             lng={userLocation.lng}
-            name={'Benson Ngai'}
+            name={user.name}
             color={'gray'}
-            onClick={handleMarkerClick}
+            onClick={() => handleMarkerClick(user)}
             isSelf={true}
           />
           {nearbyDonators && nearbyDonators.map(donator => (
@@ -369,7 +393,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
               key={donator.id}
               lat={donator.lat}
               lng={donator.lng}
-              name={"D"}
+              name={donator.name}
               color={'green'}
               onClick={() => handleDonatorClick(donator)}
               isSelf={false}
@@ -393,7 +417,7 @@ export default function MapComponent({ onUserClick, requestingMode, setRestauran
               key={requester.id}
               lat={requester.delivery_lat}
               lng={requester.delivery_lng}
-              name={"Q"}
+              name={requester.name}
               color={'red'}
               onClick={() => handleRequesterClick(requester)}
               isSelf={false}

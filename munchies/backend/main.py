@@ -77,10 +77,13 @@ async def nearby_requesters(latitude: float, longitude: float, radius: int):
     return {"nearby_requesters": nearby_requesters}
 
 @app.post("/create-request/")
-async def create_request(requester_name: str, restaurant_name: str, delivery_lat: float, delivery_lng: float, expiry: str):
-    # will have lat and long
-    delivery_loc = {"latitude": 37.4380424, "longitude": -122.1642276}
-    query_loc = (delivery_loc['latitude'], delivery_loc['longitude'])
+async def create_request(requester_name: str, restaurant_name: str, delivery_lat: float, delivery_lng: float, expiry: str, order: str):
+    # delivery_loc = {"latitude": 37.4380424, "longitude": -122.1642276}
+    query_loc = (delivery_lat, delivery_lng)
+    
+    # get address of delivery location
+    reverse_geocode_result = gmaps.reverse_geocode(query_loc)
+    delivery_address = reverse_geocode_result[0]['formatted_address'] if reverse_geocode_result else "Address not found"
 
     # get nearest place with restaurant name from google maps
     places_result = gmaps.places_nearby(location=query_loc, radius=10000, keyword=restaurant_name)
@@ -89,7 +92,7 @@ async def create_request(requester_name: str, restaurant_name: str, delivery_lat
     expiry = "2024-02-18T12:00:00Z"
 
     try:
-        response = supabase.table('requesters').insert([{"requester_name": requester_name, "restaurant_name": restaurant_name, "restaurant_lat": restaurant_loc['lat'], "restaurant_lng": restaurant_loc['lng'], "delivery_lat": delivery_loc['latitude'], "delivery_lng": delivery_loc['longitude'], "expiry": expiry}]).execute()
+        response = supabase.table('requesters').insert([{"name": requester_name, "restaurant_name": restaurant_name, "restaurant_lat": restaurant_loc['lat'], "restaurant_lng": restaurant_loc['lng'], "delivery_lat": delivery_lat, "delivery_lng": delivery_lng, "expiry": expiry, "order": order, "address": delivery_address}]).execute()
         print(response)
     except postgrest.exceptions.APIError as e:
         print(f"API Error: {e}")
@@ -97,8 +100,7 @@ async def create_request(requester_name: str, restaurant_name: str, delivery_lat
         
 @app.get("/nearby-donators/")
 async def nearby_donators(latitude: float, longitude: float, radius: int):
-    print(latitude, longitude, radius)
-    latitude, longitude = 37.42801109129112, -122.17436390356903
+    # latitude, longitude = 37.42801109129112, -122.17436390356903
     
     response = supabase.table('donaters').select("*").execute()
     donators = response.data
@@ -114,10 +116,36 @@ async def nearby_donators(latitude: float, longitude: float, radius: int):
 
 @app.post("/create-donator/")
 async def create_donator(name: str, items: str, latitude: float, longitude: float, expiry: str):
-    
     expiry = "2024-02-18T12:00:00Z"
     try:
         response = supabase.table('donaters').insert([{"name": name, "items": items, "lat": latitude, "lng": longitude, "expiry": expiry, "fulfilled": False}]).execute()
+    except postgrest.exceptions.APIError as e:
+        print(f"API Error: {e}")
+        print(e.args)
+        
+@app.get("/get-user/")
+async def get_user(id: int):
+    try:
+        response = supabase.table('users').select("*").eq('id', id).execute()
+        return response.data[0]
+    except postgrest.exceptions.APIError as e:
+        print(f"API Error: {e}")
+        print(e.args)
+
+@app.post("/create-user/")
+async def create_user(name: str):
+    try:
+        response = supabase.table('users').insert([{"name": name, "points": 0}]).execute()
+    except postgrest.exceptions.APIError as e:
+        print(f"API Error: {e}")
+        print(e.args)
+        
+@app.post("/inc-points/")
+async def inc_points(id: int):
+    try:
+        response = supabase.table('users').select("*").eq('id', id).execute()
+        points = response.data[0]['points']
+        response = supabase.table('users').update({"points": points + 1}).eq('id', id).execute()
     except postgrest.exceptions.APIError as e:
         print(f"API Error: {e}")
         print(e.args)

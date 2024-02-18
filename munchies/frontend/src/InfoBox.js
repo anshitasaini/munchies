@@ -16,7 +16,7 @@ import DonationForm from './DonationForm';
 import { FaMap } from "react-icons/fa";
 
 
-const InfoBox = ({ user, onClose, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester }) => {
+const InfoBox = ({ user, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester }) => {
   const { name, address, lat, lng, isSelf } = user;
 
   return (

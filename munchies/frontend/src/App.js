@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ChakraProvider,
   theme,
@@ -13,7 +13,9 @@ import bear from './munchies_logo.png'
 
 
 function App() {
-  const [clickedUser, setClickedUser] = useState(null);
+  const currentUserId = 1;
+  const [user, setUser] = useState(null);
+  const [open, setOpen] = useState(false);
   const [mapWidth, setMapWidth] = useState('100%');
   const [requestingMode, setRequestingMode] = useState(false);
   const [mapMarginLeft, setMapMarginLeft] = useState('0px');
@@ -23,23 +25,34 @@ function App() {
   const [donator, setDonator] = useState([]);
   const [requesterActive, setRequesterActive] = useState(false);
   const [requester, setRequester] = useState([]);
+  const userUrl = `http://127.0.0.1:8000/get-user/?id=`;
 
-  const handleUserClick = (user) => {
-    // Toggle the info box visibility if the same user is clicked again
-    if (clickedUser && clickedUser.id === user.id) {
-      handleMapClose();
-    } else {
-      setClickedUser(user);
-      // Adjust the map width when a user is clicked
-      setMapWidth('50%');
-    }
+  const fetchUser = (userId) => {
+    return fetch(userUrl + userId)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
   };
 
-  const handleMapClose = () => {
-    setClickedUser(null);
-    // Reset the map width and margin-left when closing the info box
+  useEffect(() => {
+    fetchUser(currentUserId);
+  }, []);
+
+  const openModal = () => {
+    console.log('open modal');
+    setOpen(true);
+    setMapWidth('50%');
+  }
+
+  const closeModal = () => {
+    console.log('close modal');
+    setOpen(false);
     setMapWidth('100%');
-  };
+  }
 
   return (
     <ChakraProvider theme={theme}>
@@ -56,11 +69,11 @@ function App() {
         <div style={{ display: 'flex', height: '100%', marginTop: '12px', marginLeft: '60px', marginRight: '60px', marginBottom: '60px' }}>
           {/* InfoBox (visible only when a user is clicked) */}
           
-          {clickedUser && (
+          {open && (
             <div style={{ flex: 1, padding: '12px'}}>
               <ContainerComponent
                 height="100%">
-                <InfoBox user={clickedUser} onClose={handleMapClose} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester}/>
+                <InfoBox user={user} userId={currentUserId} onClose={closeModal} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester}/>
               </ContainerComponent>
             </div>
           )}
@@ -79,7 +92,7 @@ function App() {
               borderRadius="20px"
               borderColor="rgba(52, 152, 219, 0.5)"
             >
-              <MapComponent onUserClick={handleUserClick} requestingMode={requestingMode} setRestaurantActive={setRestaurantActive} setRestaurant={setRestaurant} setDonatorActive={setDonatorActive} setDonator={setDonator} setRequesterActive={setRequesterActive} setRequester={setRequester}/>
+              <MapComponent requestingMode={requestingMode} setRestaurantActive={setRestaurantActive} setRestaurant={setRestaurant} setDonatorActive={setDonatorActive} setDonator={setDonator} setRequesterActive={setRequesterActive} setRequester={setRequester} userId={currentUserId} openModal={openModal} closeModal={closeModal} user={user} setUser={setUser}/>
             </ContainerComponent>
           </div>
         </div>
