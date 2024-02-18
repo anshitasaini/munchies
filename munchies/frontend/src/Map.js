@@ -2,8 +2,16 @@ import React, { useEffect, useState } from "react";
 import GoogleMapReact from 'google-map-react';
 import MarkerComponent from "./MarkerComponent.js";
 
+
 export default function MapComponent({ children }) {
   const [userLocation, setUserLocation] = useState(null);
+  const [clickedMarker, setClickedMarker] = useState(null);
+
+  const handleMarkerClick = (marker) => {
+    setClickedMarker(marker);
+    alert(`Marker Information:\nLatitude: ${marker.lat}\nLongitude: ${marker.lng}\nText: ${marker.text}`);
+  };
+
 
   useEffect(() => {
     // Request user's location
@@ -39,13 +47,14 @@ export default function MapComponent({ children }) {
           bootstrapURLKeys={{ key: "AIzaSyDmKOqWCNapS3k2aAHMQmq0btM3-cNnDKM" }}
           center={userLocation || defaultCenter}
           defaultZoom={15}
+          yesIWantToUseGoogleMapApiInternals
         >
-          {userLocation && <MarkerComponent lat={userLocation.lat} lng={userLocation.lng} text={'B'} />}
+          <MarkerComponent lat={userLocation.lat} lng={userLocation.lng} text={'BN'} onClick={handleMarkerClick}/>
         </GoogleMapReact>
       )}
+
     </div>
   );
 }
-
 
 

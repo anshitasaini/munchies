@@ -15,7 +15,7 @@ function App() {
             height="700px"
             borderRadius="20px"
             borderColor="rgba(52, 152, 219, 0.5)" >
-          <MapComponent />
+          <MapComponent latitude={42} longitude={42}/>
         </ContainerComponent>
       </div>
       

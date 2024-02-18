@@ -1,6 +1,7 @@
+// MarkerComponent.js
 import React from 'react';
 
-const MarkerComponent = ({text}) => {
+const MarkerComponent = ({ lat, lng, text, onClick }) => {
   return (
     <div
       style={{
@@ -13,10 +14,11 @@ const MarkerComponent = ({text}) => {
         alignItems: 'center',
         color: '#fff',
         fontWeight: 'bold',
+        cursor: 'pointer', // Add cursor style for indicating it's clickable
       }}
+      onClick={() => onClick({ lat, lng, text })}
     >
       <h1>{text}</h1>
-      
     </div>
   );
 };
