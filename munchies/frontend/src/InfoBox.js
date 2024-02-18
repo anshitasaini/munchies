@@ -4,30 +4,29 @@ import {
   Heading,
   Text,
   Button,
+  Select,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  TabPanels
 } from '@chakra-ui/react';
+import DonationForm from './DonationForm';
 
 const InfoBox = ({ user, onClose }) => {
-  const { text, lat, lng, isSelf } = user;
+  const { name, lat, lng, isSelf } = user;
 
   return (
-    <Box flex="1" padding="24px" boxSizing="border-box">
-      <Heading size='md'>Information</Heading>
-      <Text>Name: {text} </Text>
-      <Text>Latitude: {lat}</Text>
-      <Text>Longitude: {lng}</Text>
+    <Box flex="1" padding="24px" boxSizing="border-box" style={{overflow: 'scroll', maxHeight: '700px'}}>
+      <Heading size='lg'>{name}</Heading>
+      <Heading size='sm'>Latitude: {lat}</Heading>
+      <Heading size='sm'>Longitude: {lng}</Heading>
       
       {isSelf ? (
-        <div>
-          {/* Display additional fields and choices for self */}
-          <Text>Additional information for self...</Text>
-          {/* Example buttons for self */}
-          <Button colorScheme="teal" mr={3} onClick={() => console.log('Donate clicked')}>
-            Donate
-          </Button>
-          <Button onClick={() => console.log('Request food clicked')}>
-            Request Food
-          </Button>
+        <div style={{paddingTop: '24px'}}>
+            <DonationForm lat={lat} lng={lng}/>
         </div>
+        
       ) : (
         <div>
           {/* Display information for other users */}
@@ -35,9 +34,6 @@ const InfoBox = ({ user, onClose }) => {
         </div>
       )}
 
-      <Button mt={4} onClick={onClose}>
-        Close Info
-      </Button>
     </Box>
   );
 };

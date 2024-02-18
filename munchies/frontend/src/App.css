@@ -19,7 +19,7 @@
 .App .infoBox {
   flex: 0 0 25%;
   max-width: 25%;
-  padding: 24px;
+  /* padding: 24px; */
   box-sizing: border-box;
 }
 
@@ -35,14 +35,3 @@
   padding: 12px;
 }
 
-.slide-content {
-  width: 100%;
-  max-width: 600px;
-  transition: transform 0.5s ease-in-out;
-}
-
-.slide-right {
-  transform: translateX(100%);
-}
-
-/* Adjust ContainerComponent styles as needed */
