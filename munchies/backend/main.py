@@ -56,6 +56,7 @@ async def restaurant_details(name: str):
     with open('stanford_restaurants.json', 'r') as file:
         data = json.load(file)
     
+    print(data[name])
     return data[name]
 
 @app.get("/nearby-requesters/")
@@ -76,13 +77,13 @@ async def nearby_requesters(latitude: float, longitude: float, radius: int):
     return {"nearby_requesters": nearby_requesters}
 
 @app.post("/create-request/")
-async def create_request(requester_name: str, restaurant_name: str, delivery_loc: str, expiry: str):
+async def create_request(requester_name: str, restaurant_name: str, delivery_lat: float, delivery_lng: float, expiry: str):
     # will have lat and long
-    delivery_loc = {"latitude": 37.42801109129112, "longitude": -122.17436390356903}
+    delivery_loc = {"latitude": 37.4380424, "longitude": -122.1642276}
     query_loc = (delivery_loc['latitude'], delivery_loc['longitude'])
 
     # get nearest place with restaurant name from google maps
-    places_result = gmaps.places_nearby(location=query_loc, radius=1000, keyword=restaurant_name)
+    places_result = gmaps.places_nearby(location=query_loc, radius=10000, keyword=restaurant_name)
     restaurant_loc = places_result['results'][0].get('geometry', {}).get('location', {})
 
     expiry = "2024-02-18T12:00:00Z"

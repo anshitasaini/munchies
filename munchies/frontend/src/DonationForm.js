@@ -24,7 +24,7 @@ import TimeDropdown from './TimeDropdown';
 import DateInput from './DateInput';
 import MenuList from './MenuList.js';
 
-const DonationForm = ({lat, lng}) => {
+const DonationForm = ({lat, lng, setRequestingMode}) => {
   const [activeTab, setActiveTab] = useState('Donate');
   const [itemList, setItemList] = useState([]);
   const [address, setAddress] = useState("" + lat + ", " + lng);
@@ -62,6 +62,7 @@ const DonationForm = ({lat, lng}) => {
   };
 
   const handleTabChange = (index) => {
+    setRequestingMode(index === 1);
     setActiveTab(index === 0 ? 'Donate' : 'Request');
   };
 

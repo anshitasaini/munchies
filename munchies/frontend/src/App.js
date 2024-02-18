@@ -9,12 +9,13 @@ import './App.css';
 import MapComponent from './Map.js';
 import ContainerComponent from './ContainerComponent.js';
 import InfoBox from './InfoBox.js';
-import bear from './fatassbear.png'
+import bear from './munchies_logo.png'
 
 
 function App() {
   const [clickedUser, setClickedUser] = useState(null);
   const [mapWidth, setMapWidth] = useState('100%');
+  const [requestingMode, setRequestingMode] = useState(false);
   const [mapMarginLeft, setMapMarginLeft] = useState('0px');
 
   const handleUserClick = (user) => {
@@ -53,7 +54,7 @@ function App() {
             <div style={{ flex: 1, padding: '12px'}}>
               <ContainerComponent
                 height="100%">
-                <InfoBox user={clickedUser} onClose={handleMapClose} />
+                <InfoBox user={clickedUser} onClose={handleMapClose} setRequestingMode={setRequestingMode} />
               </ContainerComponent>
             </div>
           )}
@@ -72,7 +73,7 @@ function App() {
               borderRadius="20px"
               borderColor="rgba(52, 152, 219, 0.5)"
             >
-              <MapComponent onUserClick={handleUserClick} />
+              <MapComponent onUserClick={handleUserClick} requestingMode={requestingMode} />
             </ContainerComponent>
           </div>
         </div>
