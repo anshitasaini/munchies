@@ -4,12 +4,31 @@ import os
 from dotenv import load_dotenv
 import json
 from supabase import create_client, Client
+from fastapi.middleware.cors import CORSMiddleware
 import postgrest
+from pydantic import BaseModel
 
 # to run: uvicorn main:app --reload
 
 app = FastAPI()
 load_dotenv()
+
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3001/chat/",
+    "http://localhost:3001/chat/code/",
+    "http://localhost:1420",
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 gmaps_api_key = os.getenv("GMAPS_API_KEY")
 gmaps = googlemaps.Client(key=gmaps_api_key)
@@ -30,7 +49,7 @@ async def nearby_restaurants(latitude: float, longitude: float):
         location = place.get('geometry', {}).get('location', {})
         restaurants.append({'name': place.get('name'), 'address': place.get('vicinity'), 'location': location})
     
-    return {"restaurants": restaurants}
+    return {"nearby_restaurants": restaurants}
 
 @app.get("/restaurant-details/")
 async def restaurant_details(name: str):
@@ -54,7 +73,7 @@ async def nearby_requesters(latitude: float, longitude: float, radius: int):
         if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
             nearby_requesters.append(requester)
             
-    return {"requesters": nearby_requesters}
+    return {"nearby_requesters": nearby_requesters}
 
 @app.post("/create-request/")
 async def create_request(requester_name: str, restaurant_name: str, delivery_loc: str, expiry: str):
@@ -75,24 +94,25 @@ async def create_request(requester_name: str, restaurant_name: str, delivery_loc
         print(f"API Error: {e}")
         print(e.args)
         
-@app.get("/nearby-donaters/")
-async def nearby_donaters(latitude: float, longitude: float, radius: int):
+@app.get("/nearby-donators/")
+async def nearby_donators(latitude: float, longitude: float, radius: int):
+    print(latitude, longitude, radius)
     latitude, longitude = 37.42801109129112, -122.17436390356903
     
     response = supabase.table('donaters').select("*").execute()
-    donaters = response.data
+    donators = response.data
 
-    nearby_donaters = []
-    for donater in donaters:
+    nearby_donators = []
+    for donater in donators:
         donater_loc = (donater['lat'], donater['lng'])
         distance = gmaps.distance_matrix((latitude, longitude), donater_loc, mode='walking')
         if distance['rows'][0]['elements'][0]['distance']['value'] < radius:
-            nearby_donaters.append(donater)
+            nearby_donators.append(donater)
             
-    return {"donaters": nearby_donaters}
+    return {"nearby_donators": nearby_donators}
 
-@app.post("/create-donater/")
-async def create_donater(name: str, items: str, latitude: float, longitude: float, expiry: str):
+@app.post("/create-donator/")
+async def create_donator(name: str, items: str, latitude: float, longitude: float, expiry: str):
     
     expiry = "2024-02-18T12:00:00Z"
     try:
