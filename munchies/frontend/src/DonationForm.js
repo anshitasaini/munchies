@@ -23,8 +23,9 @@ import { FaTimes } from 'react-icons/fa';
 import TimeDropdown from './TimeDropdown';
 import DateInput from './DateInput';
 import MenuList from './MenuList.js';
+import axios from 'axios';
 
-const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester }) => {
+const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester, points, setPoints }) => {
   const [activeTab, setActiveTab] = useState('Pickup');
   const [itemList, setItemList] = useState([]);
   const [address, setAddress] = useState(user.address);
@@ -38,6 +39,7 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
   const donatorsUrl = 'http://127.0.0.1:8000/nearby-donators/';
   const restaurantsUrl = `http://127.0.0.1:8000/nearby-restaurants/?latitude=${lat}&longitude=${lng}`;
   const menuUrl = `http://127.0.0.1:8000/restaurant-details/?name=`;
+  const pointsUrl = `http://127.0.0.1:8000/update-points/`; 
 
   useEffect(() => {
     if (restaurantActive) {
@@ -67,7 +69,6 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
         });
     }
   }, [activeTab, restaurantsUrl]);
-
 
   const handleDateChange = (value) => {
     // Ensure value is a valid date format (MM/DD/YYYY or MM/DD/YY)
@@ -99,8 +100,24 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
     setItemList((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
+  const updatePoints = async (amount) => {
+    axios.post(pointsUrl, {
+      id: user.id,
+      amount: amount
+    })
+    .then((response) => { console.log(response); })
+    .catch((error) => { console.log(error); });
+  };
 
+
+  const handleSubmit = () => {
+    if (requesterActive || (!donatorActive && !restaurantActive && !requesterActive)) {
+      updatePoints(1);
+      setPoints(points + 1);
+    } else {
+      updatePoints(-1);
+      setPoints(points - 1);
+    }
 
     // Submit data to the backend for processing
     console.log('Submitting data:', { activeTab, itemList, address });
@@ -258,20 +275,20 @@ const DonationForm = ({user, lat, lng, setRequestingMode, restaurantActive, rest
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Success! ({(activeTab === "Pickup" ? ("+") : ("-"))} 1 Coin)</ModalHeader>
+            <ModalHeader>Success! ({(activeTab === "Pickup" ? ("+") : ("-"))}1 Coin)</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               We've received your {(activeTab === "Pickup" ? ("donation") : ("request"))}!
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" onClick={handleCloseModal}>
+            <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleCloseModal}>
                 Close
               </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
 
-        <div style={{ padding: '12px' }}></div>
+        <div style={{ padding: '2px' }}></div>
 
         {!(activeTab === 'Request' && !restaurantActive && !requesterActive && !donatorActive) && <Button style={{color: 'white', backgroundColor: '#b06b44'}} onClick={handleSubmit}>Submit</Button>}
           

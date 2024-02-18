@@ -159,12 +159,18 @@ async def create_user(name: str):
         print(f"API Error: {e}")
         print(e.args)
         
-@app.post("/inc-points/")
-async def inc_points(id: int):
+class UpdatePointsRequest(BaseModel):
+    id: int
+    amount: int
+    
+@app.post("/update-points/")
+async def update_points(update_request: UpdatePointsRequest):
+    id = update_request.id
+    amount = update_request.amount
     try:
         response = supabase.table('users').select("*").eq('id', id).execute()
         points = response.data[0]['points']
-        response = supabase.table('users').update({"points": points + 1}).eq('id', id).execute()
+        response = supabase.table('users').update({"points": points + amount}).eq('id', id).execute()
     except postgrest.exceptions.APIError as e:
         print(f"API Error: {e}")
         print(e.args)

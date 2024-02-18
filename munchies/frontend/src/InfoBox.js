@@ -3,6 +3,7 @@ import {
   Box,
   Heading,
   Text,
+  Flex,
   Button,
   Select,
   Tabs,
@@ -14,14 +15,19 @@ import {
 } from '@chakra-ui/react';
 import DonationForm from './DonationForm';
 import { FaMap } from "react-icons/fa";
-
+import { FaCoins } from "react-icons/fa";
 
 const InfoBox = ({ user, setRequestingMode, restaurantActive, restaurant, donatorActive, donator, requesterActive, requester }) => {
   const { name, address, lat, lng, isSelf } = user;
+  const [points, setPoints] = useState(user.points);
 
   return (
     <Box flex="1" padding="24px" boxSizing="border-box" style={{overflow: 'scroll', maxHeight: '700px'}}>
       <Heading size='lg'>{name}</Heading>
+      <Flex align="center" paddingTop={"6px"}>
+        <FaCoins style={{ marginRight: '12px', color: 'gold', fontSize: '24px' }} />
+        <Heading fontSize="sm">{`${points} ${points === 1 ? 'coin' : 'coins'}`}</Heading>
+      </Flex>
 
       {/* {(address) && (
         <div>
@@ -42,7 +48,7 @@ const InfoBox = ({ user, setRequestingMode, restaurantActive, restaurant, donato
       
       {isSelf ? (
         <div style={{paddingTop: '20px'}}>
-            <DonationForm user={user} lat={lat} lng={lng} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester}/>
+            <DonationForm user={user} lat={lat} lng={lng} setRequestingMode={setRequestingMode} restaurantActive={restaurantActive} restaurant={restaurant} donatorActive={donatorActive} donator={donator} requesterActive={requesterActive} requester={requester} points={points} setPoints={setPoints}/>
         </div>
         
       ) : (

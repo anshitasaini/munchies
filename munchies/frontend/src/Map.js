@@ -176,6 +176,7 @@ export default function MapComponent({ requestingMode, setRestaurantActive, setR
           defaultCenter={userLocation || defaultCenter}
           defaultZoom={15}
           options={{
+            clickableIcons: false,
             styles: [
               {
                   "featureType": "landscape.natural",
