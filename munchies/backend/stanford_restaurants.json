@@ -1,0 +1,276 @@
+{
+  "Curry Up Now": {
+    "menu_items": [
+      {
+        "item_name": "Tikka Masala Bowl",
+        "price": "$15.00",
+        "category": "Most Ordered",
+        "allergens": "Dairy"
+      },
+      {
+        "item_name": "Tikka Masala Burrito",
+        "price": "$13.75",
+        "category": "Most Ordered",
+        "allergens": "Dairy"
+      },
+      {
+        "item_name": "Itsy Bitsy Naan Bits",
+        "price": "$10.00",
+        "category": "Most Ordered",
+        "allergens": "Vegetarian"
+      },
+      {
+        "item_name": "Mango Lassi",
+        "price": "$5.00",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Punjabi By Nature Bowl",
+        "price": "$15.00",
+        "category": "Most Ordered",
+        "allergens": "Dairy"
+      }
+    ]
+  },
+  "Subway" : {
+    "menu_items": [
+      {
+        "item_name": "Black Forest Ham",
+        "price": "$7.50",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Meatball Marinara",
+        "price": "$7.25",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Veggie Delite®",
+        "price": "$6.50",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Steak & Cheese",
+        "price": "$8.75",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Sprite® (230 Cals)",
+        "price": "$3.75",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Rotisserie-Style Chicken",
+        "price": "$8.75",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Cold Cut Combo®",
+        "price": "$7.25",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Grilled Chicken",
+        "price": "$8.50",
+        "category": "Most Ordered",
+        "allergens": null
+      },
+      {
+        "item_name": "Roast Beef",
+        "price": "$9.50",
+        "category": "Most Ordered",
+        "allergens": null
+      }
+    ]
+  },
+  "Poke House" : {
+    "menu_items": [
+      {
+        "item_name": "Miso Soup",
+        "price": "$4.89",
+        "category": "Most Ordered",
+        "rating": "89% (94)"
+      },
+      {
+        "item_name": "House Salmon Bowl",
+        "price": "$22.99",
+        "category": "Most Ordered",
+        "rating": "95% (47)"
+      },
+      {
+        "item_name": "Tuna Lover Bowl",
+        "price": "$22.99",
+        "category": "Most Ordered",
+        "rating": "94% (58)"
+      },
+      {
+        "item_name": "California Hand Roll",
+        "price": "$7.19",
+        "category": "Most Ordered",
+        "rating": "97% (34)"
+      },
+      {
+        "item_name": "Crispy Shoyu Chicken Bowl",
+        "price": "$18.39",
+        "category": "Most Ordered",
+        "rating": "78% (28)"
+      },
+      {
+        "item_name": "Spam Musubi Hand Roll",
+        "price": "$7.19",
+        "category": "Most Ordered",
+        "rating": "93% (30)"
+      },
+      {
+        "item_name": "Coke",
+        "price": "$3.79",
+        "category": null,
+        "rating": "90% (11)"
+      },
+      {
+        "item_name": "Diet Coke",
+        "price": "$3.79",
+        "category": null,
+        "rating": "90% (11)"
+      },
+      {
+        "item_name": "Shoyu Salmon Hand Roll",
+        "price": "$7.19",
+        "category": null,
+        "rating": "80% (21)"
+      }
+    ]
+  },
+  "Beckman Bistro" : {
+    "menu_items": [
+      {
+        "item_name": "Toasted Bagel and Cream Cheese",
+        "price": "$3.95",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Carnitas Burrito",
+        "price": "$10.25",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Pastrami Sandwich",
+        "price": "$10.25",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Spicy Chicken Wrap",
+        "price": "$9.75",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Eggs, Bacon, and Cheese Breakfast Sandwich",
+        "price": "$6.95",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Yahoo BBQ Wrap",
+        "price": "$10.25",
+        "category": "Most Ordered"
+      }
+    ]
+  },
+  "The Treehouse" : {
+    "menu_items": [
+      {
+        "item_name": "Wings (12)",
+        "price": "$16.00",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "The Axe",
+        "price": "$10.75",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "House Salad",
+        "price": "$7.50",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Salt and Pepper Fries",
+        "price": "$5.25",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Chicken Teriyaki Bowl",
+        "price": "$11.75",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Pepperoni Slice",
+        "price": "$5.00",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Chicken Quesadilla",
+        "price": "$10.25",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Mango Lassi",
+        "price": "$6.50",
+        "category": "Most Ordered"
+      },
+      {
+        "item_name": "Pints Ice Cream",
+        "price": null,
+        "category": "Most Ordered"
+      }
+    ]
+  },
+  "Panda Express" : {
+    "menu_items": [
+      {
+        "item_name": "Chow Mein",
+        "price": "$5.50+",
+        "category": "Most Ordered",
+        "rating": "100% (10)"
+      },
+      {
+        "item_name": "Coca Cola",
+        "price": "$2.75+",
+        "category": "Most Ordered",
+        "rating": null
+      },
+      {
+        "item_name": "Fried Rice",
+        "price": "$5.50+",
+        "category": "Most Ordered",
+        "rating": null
+      },
+      {
+        "item_name": "White Steamed Rice",
+        "price": "$5.50+",
+        "category": "Most Ordered",
+        "rating": "100% (7)"
+      },
+      {
+        "item_name": "Bowl - Any 1 Side & 1 Entree",
+        "price": "$10.50"
+      },
+      {
+        "item_name": "Plate - Any 1 Side & 2 Entrees",
+        "price": "$12.40"
+      },
+      {
+        "item_name": "Bigger Plate - Any 1 Side & 3 Entrees",
+        "price": "$14.25",
+        "rating": "75% (77)"
+      }
+    ]
+  }
+}
